@@ -1,0 +1,14 @@
+global_frame: odom
+update_frequency: 3
+publish_frequency: 2
+rolling_window: true
+track_unknown_space: false
+robot_radius: 0.30
+width: 3
+height: 3
+plugins:
+  - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation,                 type: "costmap_2d::InflationLayer"}
+inflation:
+  inflation_radius: 0.20
+  cost_scaling_factor: 0.1 # larger number = lower cost elevation

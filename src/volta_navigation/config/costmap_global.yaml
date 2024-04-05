@@ -1,0 +1,19 @@
+
+global_frame: map
+robot_base_frame: base_footprint
+rolling_window: false
+track_unknown_space: false
+width: 3
+height: 3
+robot_radius: 0.30
+update_frequency: 3
+publish_frequency: 2
+
+plugins:
+  - {name: static,                  type: "costmap_2d::StaticLayer"}
+  - {name: obstacles_laser,         type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation,               type: "costmap_2d::InflationLayer"}
+
+inflation:
+  inflation_radius: 0.20
+  cost_scaling_factor: 0.1
