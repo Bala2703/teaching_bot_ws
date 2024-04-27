@@ -24,7 +24,7 @@ def bno08x_node():
     mag_pub = rospy.Publisher('bno08x/mag', MagneticField, queue_size=10)
     status_pub = rospy.Publisher('bno08x/status', DiagnosticStatus, queue_size=10)
     rospy.init_node('bno08x')
-    rate = rospy.Rate(13) # frequency in Hz
+    rate = rospy.Rate(10) # frequency in Hz
     rospy.loginfo(rospy.get_caller_id() + "  bno08x node launched.")
 
     i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)

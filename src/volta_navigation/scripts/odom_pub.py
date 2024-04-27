@@ -51,39 +51,39 @@ class OdomPublish:
         
         def update(self):
             self.current_time = rospy.Time.now()
-            self.elapsed = self.last_time - self.current_time
+            self.elapsed = self.current_time - self.last_time
             self.elapsed = self.elapsed.to_sec()
             self.last_time = self.current_time
 
-            self.vx = -0.0176*(self.wheel1 - self.wheel2 - self.wheel3 + self.wheel4)
-            self.vy = -0.0176*(self.wheel1 + self.wheel2 - self.wheel3 - self.wheel4)
+            self.vx = (-0.0176*(self.wheel1 - self.wheel2 - self.wheel3 + self.wheel4))/self.elapsed
+            self.vy = (-0.0176*(self.wheel1 + self.wheel2 - self.wheel3 - self.wheel4))/self.elapsed
 
-            self.dx += (self.vx * cos(self.dth) - self.vy * sin(self.dth))/self.elapsed
-            self.dy += (self.vx * sin(self.dth) + self.vy * cos(self.dth))/self.elapsed
+            self.dx += (self.vx * cos(self.dth) - self.vy * sin(self.dth))
+            self.dy += (self.vx * sin(self.dth) + self.vy * cos(self.dth))
             
             quaternion = Quaternion()
             quaternion.x = 0.0
             quaternion.y = 0.0
             quaternion.z = sin(self.dth/2)
             quaternion.w = cos(self.dth/2)
-            # self.odomBroadcaster.sendTransform(
-            #     (self.dx, self.dy, 0),
-            #     (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
-            #     rospy.Time.now(),
-            #     "base_footprint",
-            #     "odom"
-            #     )
+            self.odomBroadcaster.sendTransform(
+                (-self.dx, -self.dy, 0),
+                (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
+                rospy.Time.now(),
+                "base_footprint",
+                "odom"
+                )
             odom = Odometry()
             odom.header.stamp = self.current_time
             odom.header.frame_id = "odom"
-            odom.pose.pose.position.x = self.dx
-            odom.pose.pose.position.y = self.dy
+            odom.pose.pose.position.x = -self.dx
+            odom.pose.pose.position.y = -self.dy
             odom.pose.pose.position.z = 0
             odom.pose.pose.orientation = quaternion
             odom.child_frame_id = "base_footprint"
             odom.twist.twist.linear.x = self.vx
             odom.twist.twist.linear.y = self.vy
-            odom.twist.twist.angular.z = self.vth
+            odom.twist.twist.angular.z = self.vth 
 
             self.odomPub.publish(odom)
 
@@ -109,13 +109,16 @@ class OdomPublish:
             self.prev_wheel3_enc = self.wheel3_enc
             self.prev_wheel4_enc = self.wheel4_enc
 
-            self.vth = (((self.wheel1 + self.wheel2 + self.wheel3 + self.wheel4)/4)/0.172)
+            self.vth = (((self.wheel1 + self.wheel2 + self.wheel3 + self.wheel4)/4)/0.172) 
             self.dth += self.vth
+
+            self.vth /= self.elapsed 
+            # print(self.elapsed)
 
 if __name__ == '__main__':
     """ main """
     try:
-        omniTf = OdomPublish()
+        omniTf = OdomPublish()  
         omniTf.spin()
     except rospy.ROSInterruptException:
         pass

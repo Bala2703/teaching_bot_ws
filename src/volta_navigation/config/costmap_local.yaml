@@ -1,14 +1,38 @@
-global_frame: odom
-update_frequency: 3
-publish_frequency: 2
+global_frame: map
+robot_base_frame: base_footprint
+update_frequency: 10
+publish_frequency: 5
 rolling_window: true
 track_unknown_space: false
-robot_radius: 0.30
-width: 3
-height: 3
+robot_radius: 0.25
+width: 7
+height: 7
 plugins:
   - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
   - {name: inflation,                 type: "costmap_2d::InflationLayer"}
 inflation:
-  inflation_radius: 0.20
+  inflation_radius: 0.1
   cost_scaling_factor: 0.1 # larger number = lower cost elevation
+
+
+# local_costmap:
+#   #We'll publish the voxel grid used by this costmap
+#   publish_voxel_map: true
+
+#   #Set the global and robot frames for the costmap
+#   global_frame: odom
+#   robot_base_frame: base_footpirnt
+
+#   #Set the update and publish frequency of the costmap
+#   update_frequency: 5.0
+#   publish_frequency: 2.0
+
+#   #We'll configure this costmap to be a rolling window... meaning it is always
+#   #centered at the robot
+#   static_map: false
+#   rolling_window: true
+#   width: 6.0
+#   height: 6.0
+#   resolution: 0.025
+#   origin_x: 0.0
+#   origin_y: 0.0

@@ -1,45 +1,45 @@
 controller_frequency: 1.0
-# DWAPlannerROS:
-#   acc_lim_th: 5.0
-#   acc_lim_x: 5.0
-#   acc_lim_y: 5.0
-#   acc_lim_trans: 5.0
+DWAPlannerROS:
+  acc_lim_th: 0.5
+  acc_lim_x: 0.5
+  acc_lim_y: 0.5
+  acc_lim_trans: 0.5
 
-#   max_vel_x: 0.3
-#   min_vel_x: -0.3
+  max_vel_x: 0.5
+  min_vel_x: 0.5
 
-#   max_vel_y: 0.3
-#   min_vel_y: -0.3
+  max_vel_y: 0.5
+  min_vel_y: -0.5
 
-#   max_vel_trans: 0.2
-#   min_vel_trans: -0.2
+  max_vel_trans: 0.3
+  min_vel_trans: -0.3
 
-#   max_vel_theta: 0.3
-#   min_vel_theta: -0.3
+  max_vel_theta: 0.3
+  min_vel_theta: -0.3
 
-#   sim_time: 1.0
-#   vx_samples: 40
-#   #vy samples: 40
-#   vtheta_samples: 50
+  sim_time: 1.55
+  vx_samples: 20
+  vy samples: 20
+  vtheta_samples: 30
 
-#   #goal_distance_bias: 10.0
-#   #path_distance_bias: 32.0
-#   occdist_scale: 10
+  #goal_distance_bias: 10.0
+  #path_distance_bias: 32.0
+  # occdist_scale: 10
 
-#   #stop_time_buff  controller_frequency: 1.0er: 0.2
-#   #oscillation_reset_dist: 0.05
+  #stop_time_buff  controller_frequency: 1.0er: 0.2
+  #oscillation_reset_dist: 0.05
 
-#   #forward_point_distance: 0.3
+  #forward_point_distance: 0.3
 
-#   scaling_speed: 0.3
-#   max_scaling_factor: 0
+  scaling_speed: 0.3
+  max_scaling_factor: 0
 
-#   #sim_period: 0.1
+  #sim_period: 0.1
 
-#   xy_goal_tolerance: 0.3 #meter
-#   yaw_goal_tolerance: 0.3 #radians
-#   controller_frequency: 2.0
-#   #latch_xy_goal_tolerance: false
+  xy_goal_tolerance: 0.2 #meter
+  yaw_goal_tolerance: 0.2 #radians
+  controller_frequency: 1.0
+  #latch_xy_goal_tolerance: false
 
 TebLocalPlannerROS:
 
@@ -48,26 +48,26 @@ TebLocalPlannerROS:
   map_frame: map
       
   # Trajectory
-    
+  min_samples: 10
   teb_autosize: True
-  dt_ref: 0.3 #0.2
+  dt_ref: 0.4 #0.2
   dt_hysteresis: 0.1
   global_plan_overwrite_orientation: True
   max_global_plan_lookahead_dist: 3.0
   feasibility_check_no_poses: 5
     
   # Robot
-  max_vel_y: 0.4  
-  max_vel_y_backwards: 0.4      
-  max_vel_x: 0.40 #0.25 
-  max_vel_x_backwards: 0.4 #0.2
-  max_vel_theta: 1.0 #0.5
+  max_vel_y: 0.5  
+  max_vel_y_backwards: 0.5      
+  max_vel_x: 0.5 #0.25 
+  max_vel_x_backwards: 0.5 #0.2
+  max_vel_theta: 0.5 #0.5
   acc_lim_x: 0.5 # 0.2
-  acc_lim_theta: 0.6283 #0.5, 0.26
+  acc_lim_theta: 0.26 #0.5, 0.26
   min_turning_radius: 0.0
   footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
     type: "circular" #"circular" 
-    radius: 0.30 # for type "circular"
+    radius: 0.25 # for type "circular"
     #line_start: [-0.3, 0.0] # for type "line"
     #line_end: [0.3, 0.0] # for type "line"
     #front_offset: 0.2 # for type "two_circles"
@@ -78,15 +78,15 @@ TebLocalPlannerROS:
 
   # GoalTolerance
       
-  xy_goal_tolerance: 0.3 #0.2
-  yaw_goal_tolerance: 0.3
+  xy_goal_tolerance: 0.1 #0.2
+  yaw_goal_tolerance: 0.2
   free_goal_vel: False
       
   # Obstacles
       
-  min_obstacle_dist: 0.15
-  inflation_dist: 0.26
-  dynamic_obstacle_inflation_dist: 0.05
+  min_obstacle_dist: 0.1
+  inflation_dist: 0.12
+  dynamic_obstacle_inflation_dist: 0.12
   include_costmap_obstacles: True
   costmap_obstacles_behind_robot_dist: 0.1
   obstacle_poses_affected: 25 #30
@@ -99,11 +99,12 @@ TebLocalPlannerROS:
   no_inner_iterations: 5 #5
   no_outer_iterations: 4 #4
   optimization_activate: True
-  optimization_verbose: False
+  optimization_verbose: True
   penalty_epsilon: 0.1
-  weight_max_vel_x: 2 #2
+  weight_max_vel_x: 1 #2
   weight_max_vel_theta: 1 #1
   weight_acc_lim_x: 1 # 1
+  # weight_acc_lim_y: 1
   weight_acc_lim_theta: 1 # 1
   weight_kinematics_nh: 1000 #1000
   weight_kinematics_forward_drive: 1000 #1000
@@ -127,12 +128,12 @@ TebLocalPlannerROS:
   h_signature_threshold: 0.1
   obstacle_keypoint_offset: 0.1
   obstacle_heading_threshold: 0.45
-  visualize_hc_graph: False
+  visualize_hc_graph: True
 
   #ViaPoints
   global_plan_viapoint_sep: 0.5 #negative if none
   via_points_ordered: False #adhere to order of via points
 
   #Feedback
-  publish_feedback: true #false
+  publish_feedback: false #false
 

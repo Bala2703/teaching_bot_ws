@@ -1,5 +1,11 @@
 <launch>
-      <node pkg="robot_localization" type="ekf_localization_node" name="ekf_node" clear_params="true" output="screen">
+      <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_node" clear_params="true" output="screen">
     <rosparam command="load" file="$(find robot_description)/params/ekf.yaml" /> 
-  </node>
+
+  </node> -->
+      <node name="laser_filter" pkg="robot_description" type="laser_filter.py" respawn="true" respawn_delay="2">
+      </node>
+
+            <node name="odom_pub" pkg="volta_navigation" type="odom_pub.py" respawn="true" respawn_delay="2">
+      </node>
   </launch>

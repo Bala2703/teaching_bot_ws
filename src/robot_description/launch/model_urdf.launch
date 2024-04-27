@@ -1,77 +1,28 @@
-<launch>
+  <launch>
 
 
-  <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
-  <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
-  <param name="serial_baudrate"     type="int"    value="256000"/>
-  <param name="frame_id"            type="string" value="laser"/>
-  <param name="inverted"            type="bool"   value="false"/>
-  <param name="angle_compensate"    type="bool"   value="true"/>
-  </node>
-
-    <node name="ros_bno08x" pkg="ros_bno08x" type="talker.py" respawn="true" respawn_delay="2">
+    <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+    <param name="serial_port"         type="string" value="/dev/ttyUSB1"/>
+    <param name="serial_baudrate"     type="int"    value="256000"/>
+    <param name="frame_id"            type="string" value="laser"/>
+    <param name="inverted"            type="bool"   value="false"/>
+    <param name="angle_compensate"    type="bool"   value="true"/>
+    <remap from="/scan" to="/base_scan"/>
     </node>
 
-    <param name="robot_description"
-        command="$(find xacro)/xacro '$(find robot_description)/urdf/include/ai_bot.xacro'" />
+      <!-- <node name="ros_bno08x" pkg="ros_bno08x" type="talker.py" respawn="true" respawn_delay="2">
+      </node> -->
+
+      <param name="robot_description"
+          command="$(find xacro)/xacro '$(find robot_description)/urdf/include/ai_bot.xacro'" />
 
 
-    <node name="joint_state_publisher"
-        pkg="joint_state_publisher"
-        type="joint_state_publisher" />
+      <node name="joint_state_publisher"
+          pkg="joint_state_publisher"
+          type="joint_state_publisher" />
+      <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+      </node>
 
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
-    </node>
-
-      <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_node" clear_params="true" output="screen">
-    <rosparam command="load" file="$(find robot_description)/params/ekf1.yaml" /> 
-  </node> -->
-  
-    <!-- </remap from="odometry/filtered" to="odom"> -->
-
-
-    <!-- <arg name="scan_topic" default="scan" />
-
-  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
-    <param name="base_frame" value="base_footprint"/>
-    <param name="odom_frame" value="odom"/>    
-    <param name="map_frame" value="map"/>
-    <param name="map_update_interval" value="0.5"/>
-    <param name="maxUrange" value="6.0"/>
-    <param name="maxRange" value="8.0"/>
-    <param name="sigma" value="0.05"/>
-    <param name="kernelSize" value="1"/>
-    <param name="lstep" value="0.05"/>
-    <param name="astep" value="0.05"/>
-    <param name="iterations" value="5"/>
-    <param name="lsigma" value="0.075"/>
-    <param name="ogain" value="3.0"/>
-    <param name="lskip" value="0"/>
-    <param name="minimumScore" value="100"/>
-    <param name="srr" value="0.01"/>
-    <param name="srt" value="0.02"/>
-    <param name="str" value="0.01"/>
-    <param name="stt" value="0.02"/>
-    <param name="linearUpdate" value="0.5"/>
-    <param name="angularUpdate" value="0.436"/>
-    <param name="temporalUpdate" value="-1.0"/>
-    <param name="resampleThreshold" value="0.5"/>
-    <param name="particles" value="80"/>    
-
-    <param name="xmin" value="-5"/>
-    <param name="ymin" value="-5"/>
-    <param name="xmax" value="5"/>
-    <param name="ymax" value="5"/>
-
-
-    <param name="delta" value="0.05"/>
-    <param name="llsamplerange" value="0.01"/>
-    <param name="llsamplestep" value="0.01"/>
-    <param name="lasamplerange" value="0.005"/>
-    <param name="lasamplestep" value="0.005"/>
-    <remap from="scan" to="$(arg scan_topic)"/>
-  </node> -->
-
-<!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_description)/urdf/robot.rviz"
-        required="true" /> -->
-</launch>
+  <!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_description)/urdf/robot.rviz"
+          required="true" /> -->
+  </launch>
